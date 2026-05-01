@@ -58,3 +58,7 @@ Icon
 ._*
 .Spotlight-V100
 .Trashes
+
+# Duplicate Unity package files
+Packages/manifest 2.json
+Packages/packages-lock 2.json
