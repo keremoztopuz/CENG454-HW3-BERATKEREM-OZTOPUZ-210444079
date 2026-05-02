@@ -1,7 +1,8 @@
 using UnityEngine;
+using CoreBreach.Interfaces;
 
 namespace CoreBreach.Weapons {
-    public class Projectile : MonoBehaviour
+    public class Projectile : MonoBehaviour, IPoolable
     {
         [SerializeField] private float projectileDamage = 20f;
         [SerializeField] private float projectileSpeed = 25f;
@@ -27,6 +28,16 @@ namespace CoreBreach.Weapons {
             {
                 gameObject.SetActive(false); //until pool we keep reuse like this
             }
+        }
+
+        public void OnSpawnFromPool()
+        {
+            remainingLifeTime = lifeTime; //restart projectile lifetime on every reuse
+        }
+        
+        public void OnReturnToPool() //projectile passivise
+        {
+            direction = Vector3.zero;
         }
         
     }
