@@ -62,3 +62,7 @@ Icon
 # Duplicate Unity package files
 Packages/manifest 2.json
 Packages/packages-lock 2.json
+
+# Numbered duplicate/conflict copies
+* [2-9].*
+* [2-9]/
