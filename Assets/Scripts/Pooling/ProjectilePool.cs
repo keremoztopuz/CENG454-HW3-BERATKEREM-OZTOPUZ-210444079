@@ -14,7 +14,8 @@ namespace CoreBreach.Pooling
         private void Awake()
         {
             for (int i = 0; i < initialSize; i++){
-                CreateProjectile();
+                Projectile projectile = CreateProjectile();
+                availableProjectiles.Enqueue(projectile);
             }
         }
 
@@ -22,8 +23,27 @@ namespace CoreBreach.Pooling
         {
             Projectile projectile = Instantiate(projectilePrefab, transform);
             projectile.gameObject.SetActive(false);
-            availableProjectiles.Enqueue(projectile);
             return projectile;
+        }
+
+        public Projectile GetProjectile() //public method because another class will call this
+        {
+            Projectile projectile = availableProjectiles.Count > 0
+
+                ? availableProjectiles.Dequeue()
+                : CreateProjectile();
+
+            projectile.OnSpawnFromPool();
+            projectile.gameObject.SetActive(true);
+
+            return projectile;
+        }
+        
+        public void ReturnProjectile(Projectile projectile)
+        {
+            projectile.OnReturnToPool();
+            projectile.gameObject.SetActive(false);
+            availableProjectiles.Enqueue(projectile);
         }
     }
 }
